@@ -24,17 +24,23 @@ class LocationPlugin {
 class Location {
   final double latitude;
   final double longitude;
+  final double accuracy;
+  final double altitude;
 
-  Location(this.latitude, this.longitude);
+  Location(this.latitude, this.longitude, this.accuracy, this.altitude);
 
   factory Location.fromResult(Map<String, double> result) {
-    return new Location(result['latitude'], result['longitude']);
+    return new Location(
+      result['latitude'],
+      result['longitude'],
+      result['accuracy'],
+      result['altitude'],
+    );
   }
 
   @override
-  String toString() {
-    return 'LocationData{latitude: $latitude, longitude: $longitude}';
-  }
+  String toString() =>
+      'Location{latitude: $latitude, longitude: $longitude, accuracy: $accuracy, altitude: $altitude}';
 
   @override
   bool operator ==(Object other) =>
@@ -42,8 +48,14 @@ class Location {
       other is Location &&
           runtimeType == other.runtimeType &&
           latitude == other.latitude &&
-          longitude == other.longitude;
+          longitude == other.longitude &&
+          accuracy == other.accuracy &&
+          altitude == other.altitude;
 
   @override
-  int get hashCode => latitude.hashCode ^ longitude.hashCode;
+  int get hashCode =>
+      latitude.hashCode ^
+      longitude.hashCode ^
+      accuracy.hashCode ^
+      altitude.hashCode;
 }
